@@ -1,0 +1,20 @@
+{
+  "name": "comlog-system-monitor-sftp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "comlog-system-monitor-sftp.js",
+  "scripts": {
+    "test": "node test\\test.js"
+  },
+  "author": "COMLOG GmbH <bernhard.duenow@comlog.org> (http://www.comlog.org/)",
+  "license": "COMLOG GmbH",
+  "homepage": "https://www.comlog.org/",
+  "dependencies": {
+    "comlog-event-handler": "^1.0.2",
+    "ssh2": "^0.6.1"
+  },
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/comlog-gmbh/comlog-system-monitor-sftp.git"
+  }
+}
