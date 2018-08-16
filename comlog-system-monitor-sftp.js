@@ -12,7 +12,7 @@ function ComlogSFTPWatcher(options) {
 	var _running = false, _timer = null;
 	if (!options) options = {};
 	options.host = options.host || options.name || 'localhost';
-	options.port = options.port || 21;
+	options.port = options.port || 22;
 	options.username = options.username || options.user || 'anonymous';
 	options.password = options.password || options.pass || 'anonymous@';
 
