@@ -8,6 +8,8 @@ function ComlogSFTPWatcher(options) {
 	this.debug = false;
 	this.interval = 60000; // 1 Minute
 
+	this.logger = console;
+
 	// Private funktionen
 	var _running = false, _timer = null;
 	if (!options) options = {};
@@ -32,7 +34,7 @@ function ComlogSFTPWatcher(options) {
 
 		var __event = function(err) {
 			if (err !== null) {
-				if (_self.debug) console.error(err.stack || err);
+				if (_self.debug) _self.logger.error(err.stack || err);
 				_self.emit('error', [new Error("Connection to \""+options.user+'@'+options.host+"\" filed \n"+err.message)]);
 				if (_self.satus === true) _self.emit('down');
 				_self.satus = false;
@@ -40,7 +42,7 @@ function ComlogSFTPWatcher(options) {
 			else {
 				c.sftp(function(err2, sftp) {
 					if (err2 !== null && typeof err2 != "undefined") {
-						if (_self.debug) console.error(err2.stack || err2);
+						if (_self.debug) _self.logger.error(err2.stack || err2);
 						_self.emit('error', [new Error("Connection to \""+options.user+'@'+options.host+"\" filed \n"+err2.message)]);
 						if (_self.satus === true) _self.emit('down');
 						_self.satus = false;
@@ -48,7 +50,7 @@ function ComlogSFTPWatcher(options) {
 					else {
 						sftp.readdir('.', function(err3, list) {
 							if (err3 !== null && typeof err2 != "undefined") {
-								if (_self.debug) console.error(err3.stack || err2);
+								if (_self.debug) _self.logger.error(err3.stack || err2);
 								_self.emit('error', [new Error("Connection to \""+options.user+'@'+options.host+"\" filed \n"+err3.message)]);
 								if (_self.satus === true) _self.emit('down');
 								_self.satus = false;
@@ -57,7 +59,7 @@ function ComlogSFTPWatcher(options) {
 								var new_status = true, msg = "Connection to \""+options.user+'@'+options.host+"\" check ok \n";
 
 								// check result
-								if (_self.debug) console.info(msg);
+								if (_self.debug) _self.logger.info(msg);
 								if (_self.satus !== null && _self.satus !== new_status) _self.emit(new_status ? 'up' : 'down');
 								_self.satus = new_status;
 
