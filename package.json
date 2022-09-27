@@ -1,6 +1,6 @@
 {
   "name": "comlog-system-monitor-sftp",
-  "version": "1.1.0",
+  "version": "1.1.2",
   "description": "",
   "main": "comlog-system-monitor-sftp.js",
   "scripts": {
@@ -11,7 +11,7 @@
   "homepage": "https://www.comlog.org/",
   "dependencies": {
     "comlog-event-handler": ">=1.0.2",
-    "ssh2": "^0.6.1"
+    "ssh2": "^0.6.2"
   },
   "repository": {
     "type": "git",

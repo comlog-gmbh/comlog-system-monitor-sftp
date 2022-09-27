@@ -38,6 +38,9 @@ function ComlogSFTPWatcher(options) {
 				_self.emit('error', [new Error("Connection to \""+options.user+'@'+options.host+"\" filed \n"+err.message)]);
 				if (_self.satus === true) _self.emit('down');
 				_self.satus = false;
+
+				_running = false;
+				_timer = setTimeout(_watch, _self.interval);
 			}
 			else {
 				c.sftp(function(err2, sftp) {
@@ -46,6 +49,9 @@ function ComlogSFTPWatcher(options) {
 						_self.emit('error', [new Error("Connection to \""+options.user+'@'+options.host+"\" filed \n"+err2.message)]);
 						if (_self.satus === true) _self.emit('down');
 						_self.satus = false;
+
+						_running = false;
+						_timer = setTimeout(_watch, _self.interval);
 					}
 					else {
 						sftp.readdir('.', function(err3, list) {
@@ -54,6 +60,9 @@ function ComlogSFTPWatcher(options) {
 								_self.emit('error', [new Error("Connection to \""+options.user+'@'+options.host+"\" filed \n"+err3.message)]);
 								if (_self.satus === true) _self.emit('down');
 								_self.satus = false;
+
+								_running = false;
+								_timer = setTimeout(_watch, _self.interval);
 							}
 							else {
 								var new_status = true, msg = "Connection to \""+options.user+'@'+options.host+"\" check ok \n";
@@ -64,21 +73,30 @@ function ComlogSFTPWatcher(options) {
 								_self.satus = new_status;
 
 								c.end();
+
+								_running = false;
+								_timer = setTimeout(_watch, _self.interval);
 							}
 						});
 					}
 				});
 			}
-
-			_running = false;
-			_timer = setTimeout(_watch, _self.interval);
 		};
 
+		var ready_or_error_send = false;
 		c.on('ready', function() {
+			ready_or_error_send = true;
+			console.info('Ready!');
 			__event(null);
 		});
 		c.on('error', function(err) {
+			ready_or_error_send = true;
+			console.info('Error!');
 			__event(err);
+		});
+		c.on('close', function() {
+			if (!ready_or_error_send) __event(new Error("Ready or Error event not send!"));
+			console.info('Close!');
 		});
 		c.connect(options);
 	}

@@ -7,4 +7,5 @@ var Watcher = new SFTPWatcher({
 	password: '',
 });
 Watcher.interval = 3000;
+Watcher.debug = true;
 Watcher.start();
